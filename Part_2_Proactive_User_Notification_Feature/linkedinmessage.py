@@ -12,8 +12,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-linkedin_username = "anonymous342165@gmail.com"
-linkedin_password = "Testid@1"
+linkedin_username = "anonym*******@gmail.com"
+linkedin_password = "Tes*****"
 
 excel_file = "linkedin_data.xlsx"
 
@@ -38,7 +38,7 @@ def login_to_linkedin(username, password):
 
 def get_unread_data():
     driver.get("https://www.linkedin.com/feed/")
-    driver.implicitly_wait(10)  # Adjust the wait time as needed
+    driver.implicitly_wait(10)  
 
     navbar = driver.find_element(By.CSS_SELECTOR, ".global-nav__content")
     unread_counts = navbar.find_elements(By.CSS_SELECTOR, ".notification-badge__count")
@@ -73,9 +73,9 @@ def send_email_notification(messages, notifications, prev_messages=None, prev_no
     # Email configuration
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    sender_email = "anonymous342165@gmail.com"
-    sender_password = "nsdgdtsliyinecfv"
-    recipient_email = "gowthamsundharam001@gmail.com"
+    sender_email = "anonym*********@gmail.com"
+    sender_password = "nsdgd*********"
+    recipient_email = "gowthams*********@gmail.com"
 
     email_subject = "LinkedIn Unread Notifications"
 
@@ -170,11 +170,13 @@ def send_email_notification(messages, notifications, prev_messages=None, prev_no
 
 def main():
     login_to_linkedin(linkedin_username, linkedin_password)
-    prev_messages, prev_notifications = get_unread_data()
-    current_messages, current_notifications = get_unread_data()
-    save_data_to_excel(current_messages, current_notifications)
-    send_email_notification(current_messages, current_notifications, prev_messages, prev_notifications)
-    driver.quit()
+
+    while True:
+        prev_messages, prev_notifications = get_unread_data()
+        time.sleep(3 * 60 * 60)  
+        current_messages, current_notifications = get_unread_data()
+        save_data_to_excel(current_messages, current_notifications)
+        send_email_notification(current_messages, current_notifications, prev_messages, prev_notifications)
 
 if __name__ == "__main__":
     main()
